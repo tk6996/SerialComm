@@ -4,17 +4,17 @@
         {
             "label": "javacompile",
             "type": "shell",
-            "command": "cd \"C:\\Program Files (x86)\\Java\\jdk1.8.0_74\\bin\" && javac" ,
+            "command": "cd \"C:\\Program Files (x86)\\Java\\jdk1.8.0_74\\bin\" && javac",
             "args": [
                 "-d",
                 "${workspaceFolder}\\bin",
-                "${workspaceFolder}\\src\\com\\epam\\*.java",
-             
+                "${workspaceFolder}\\src\\com\\epam\\*.java"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": []
         }
     ]
 
