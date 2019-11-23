@@ -2,7 +2,6 @@ package com.epam;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -28,6 +27,7 @@ public class BMP {
 					rgb[y][x] = ((buf[2]&0xFF) << 16) + ((buf[1]&0xFF) << 8) + (buf[0]&0xFF);
 				}
 			}
+			fos.close();
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
