@@ -14,7 +14,7 @@ if __name__ == "__main__":
                 "Enter \"Start\" for Activate\n" if state ==
                 0 else "Enter Type Image for Capture and Receive Data\n" + img_angle.__str__() + "\n")
             if state == 0 and command.lower() == "start":
-                myserial.write(b'S')
+                myserial.write(ord('S').to_bytes(1,"big"))
                 img_angle = []
                 for _ in range(3):
                     angle = int.from_bytes(myserial.read(), "big")

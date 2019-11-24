@@ -14,9 +14,9 @@ public class MainProgram {
 
 	public static void main(String[] args) {
 		try {
-			final String Arduino2 = "COM16";
+			final String Arduino2 = "COM15";
 			final String Arduino3 = "COM14";
-			final String Arduino4 = "COM8";
+			final String Arduino4 = "COM16";
 			SimpleRead sRead = null;
 			Control ctr = null;
 			ServoControl servo = null;
@@ -65,18 +65,24 @@ public class MainProgram {
 						switch (i) {
 						case 0:
 							System.out.println("angle = -45* , type = " + angle[0]);
-							ctr.outputStream.write(-45);
+							ctr.outputStream.write((byte)1);
+							while((char)ctr.waitingStart() == -1){}
 							ctr.outputStream.write(angle[0]);
+							while((char)ctr.waitingStart() == -1){}
 							break;
 						case 1:
 							System.out.println("angle = 0* , type = " + angle[1]);
-							ctr.outputStream.write(0);
+							ctr.outputStream.write((byte)2);
+							while((char)ctr.waitingStart() == -1){}
 							ctr.outputStream.write(angle[1]);
+							while((char)ctr.waitingStart() == -1){}
 							break;
 						case 2:
 							System.out.println("angle = 45* , type = " + angle[2]);
-							ctr.outputStream.write(45);
+							ctr.outputStream.write((byte)3);
+							while((char)ctr.waitingStart() == -1){}
 							ctr.outputStream.write(angle[2]);
+							while((char)ctr.waitingStart() == -1){}
 							break;
 						default:
 							break;
@@ -93,7 +99,7 @@ public class MainProgram {
 								int[][] data = sRead.readPic();
 								type = analysis(data);
 							} while (type != angle[i]);
-							sendDataPixel(ctr.outputStream);
+							sendDataPixel(ctr);
 							// sendDataPixel(System.out);
 							break;
 						}
@@ -144,7 +150,7 @@ public class MainProgram {
 
 	}
 
-	public static void sendDataPixel(OutputStream out) throws IOException {
+	public static void sendDataPixel(Control ctr) throws IOException {
 
 		System.out.println("Waiting");
 		BufferedImage buf = ImageIO.read(new File("c:/datacom/use/raw.bmp"));
@@ -154,11 +160,16 @@ public class MainProgram {
 				System.out.println("Pos x = " + j * buf.getWidth() / 5 + " Pos y = " + i * buf.getHeight() / 5
 						+ " PixelValue = " + (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
 
-				out.write((byte) (0x1F & (int) (j * buf.getWidth() / 5)));
-				out.write((byte) ((0x1E0 & (int) (j * buf.getWidth() / 5)) >> 5));
-				out.write((byte) (0x1F & (int) (i * buf.getHeight() / 5)));
-				out.write((byte) ((0x1E0 & (int) (i * buf.getHeight() / 5)) >> 5));
-				out.write((byte) (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
+				ctr.outputStream.write((byte) (0x1F & (byte) (j * buf.getWidth() / 5)));
+				while((char)ctr.waitingStart() == -1){}
+				ctr.outputStream.write((byte) ((0xF & (byte) ((j * buf.getWidth() / 5) >> 5)) ));
+				while((char)ctr.waitingStart() == -1){}
+				ctr.outputStream.write((byte) (0x1F & (int) (i * buf.getHeight() / 5)));
+				while((char)ctr.waitingStart() == -1){}
+				ctr.outputStream.write((byte) ((0xF & (byte) ((j * buf.getHeight() / 5) >> 5)) ));
+				while((char)ctr.waitingStart() == -1){}
+				ctr.outputStream.write((byte) (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
+				while((char)ctr.waitingStart() == -1){}
 
 			}
 		}

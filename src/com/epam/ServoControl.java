@@ -32,21 +32,21 @@ public class ServoControl {
     }
 
     public void Degrees45() throws IOException {
-        this.servoHorizontalRotage((byte) 45);
+        this.servoHorizontalRotage((byte) 48);
         sleep(1000);
-        this.servoVerticalRotage((byte) 156);
+        this.servoVerticalRotage((byte) 159);
     }
 
     public void Degrees90() throws IOException {
-        this.servoHorizontalRotage((byte) 92);
+        this.servoHorizontalRotage((byte) 94);
         sleep(1000);
-        this.servoVerticalRotage((byte) 151);
+        this.servoVerticalRotage((byte) 154);
     }
 
     public void Degrees135() throws IOException {
-        this.servoHorizontalRotage((byte) 140);
+        this.servoHorizontalRotage((byte) 142);
         sleep(1000);
-        this.servoVerticalRotage((byte) 148);
+        this.servoVerticalRotage((byte) 152);
     }
 
     public void rotage(int i) throws IOException {

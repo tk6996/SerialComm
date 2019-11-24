@@ -1,5 +1,6 @@
 package com.epam;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,8 +30,11 @@ public class Control {
     }
     public int waitingStart() throws IOException
     {
-        while (inputStream.available() == 0)
-        {}
-        return inputStream.read();
+       // while (inputStream.available() == 0)
+       // {}
+        BufferedInputStream bw = new BufferedInputStream(inputStream);
+        int ch =  bw.read();
+        System.out.println((char)ch);
+        return ch;
     }
 }
