@@ -14,9 +14,9 @@ public class MainProgram {
 
 	public static void main(String[] args) {
 		try {
-			final String Arduino2 = "COM15";
+			final String Arduino2 = "COM16";
 			final String Arduino3 = "COM14";
-			final String Arduino4 = "COM16";
+			final String Arduino4 = "COM8";
 			SimpleRead sRead = null;
 			Control ctr = null;
 			ServoControl servo = null;
@@ -39,10 +39,10 @@ public class MainProgram {
 				}
 			}
 
-			long time = System.currentTimeMillis();
+			/*long time = System.currentTimeMillis();
 			while (System.currentTimeMillis() - time < 5000) {
 
-			}
+			}*/
 			System.out.println("Ready Command");
 			while (true) {
 				// char comm = (char) System.in.read();
@@ -66,23 +66,23 @@ public class MainProgram {
 						case 0:
 							System.out.println("angle = -45* , type = " + angle[0]);
 							ctr.outputStream.write((byte)1);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							ctr.outputStream.write(angle[0]);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							break;
 						case 1:
 							System.out.println("angle = 0* , type = " + angle[1]);
 							ctr.outputStream.write((byte)2);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							ctr.outputStream.write(angle[1]);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							break;
 						case 2:
 							System.out.println("angle = 45* , type = " + angle[2]);
 							ctr.outputStream.write((byte)3);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							ctr.outputStream.write(angle[2]);
-							while((char)ctr.waitingStart() == -1){}
+							ctr.waitingStart();
 							break;
 						default:
 							break;
@@ -161,16 +161,15 @@ public class MainProgram {
 						+ " PixelValue = " + (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
 
 				ctr.outputStream.write((byte) (0x1F & (byte) (j * buf.getWidth() / 5)));
-				while((char)ctr.waitingStart() == -1){}
+				ctr.waitingStart();
 				ctr.outputStream.write((byte) ((0xF & (byte) ((j * buf.getWidth() / 5) >> 5)) ));
-				while((char)ctr.waitingStart() == -1){}
+				ctr.waitingStart();
 				ctr.outputStream.write((byte) (0x1F & (int) (i * buf.getHeight() / 5)));
-				while((char)ctr.waitingStart() == -1){}
+				ctr.waitingStart();
 				ctr.outputStream.write((byte) ((0xF & (byte) ((j * buf.getHeight() / 5) >> 5)) ));
-				while((char)ctr.waitingStart() == -1){}
+				ctr.waitingStart();
 				ctr.outputStream.write((byte) (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
-				while((char)ctr.waitingStart() == -1){}
-
+				ctr.waitingStart();
 			}
 		}
 

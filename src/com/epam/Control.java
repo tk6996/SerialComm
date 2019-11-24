@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Enumeration;
 
 import javax.comm.CommPortIdentifier;
 import javax.comm.PortInUseException;
@@ -17,21 +18,45 @@ public class Control {
     public OutputStream outputStream;
     public SerialPort serialPort;
     public BufferedInputStream bw;
-
-    public Control(CommPortIdentifier pid) throws PortInUseException, IOException, UnsupportedCommOperationException
-    {
-			portId = pid;
-			serialPort = (SerialPort) portId.open("Control", 1000);
-            inputStream = serialPort.getInputStream();
-            outputStream = serialPort.getOutputStream();
-            bw = new BufferedInputStream(inputStream);
-			serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
-                    SerialPort.PARITY_NONE);
+    public char stop;
+    public static void main(final String[] args) {
+        try {
+            final Enumeration<?> portList = CommPortIdentifier.getPortIdentifiers();
+            CommPortIdentifier pid = null;
+            while (portList.hasMoreElements()) {
+                pid = (CommPortIdentifier) portList.nextElement();
+                if (pid.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+                    System.out.println("Port name: " + pid.getName());
+                    if (pid.getName().equals("COM7")) {
+                        Control ctr = new Control(pid);
+                        while (true)
+                        {
+                            System.out.println(ctr.waitingStart());
+                        }
+                        
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    public int waitingStart() throws IOException
-    {
-        int ch =  bw.read();
-        System.out.println((char)ch);
+
+    public Control(CommPortIdentifier pid) throws PortInUseException, IOException, UnsupportedCommOperationException {
+        portId = pid;
+        serialPort = (SerialPort) portId.open("Control", 1000);
+        inputStream = serialPort.getInputStream();
+        outputStream = serialPort.getOutputStream();
+        bw = new BufferedInputStream(inputStream);
+        serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+        stop = (char) bw.read();
+        System.out.println("Stop char = " + stop);
+    }
+
+    public int waitingStart() throws IOException {
+        int ch = bw.read();
+        // System.out.println((char)ch);
+        while((char)ch == stop){ch = bw.read();}
         return ch;
     }
 }
