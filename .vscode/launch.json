@@ -16,8 +16,9 @@
             "request": "launch",
             "mainClass": "com.epam.SimpleRead",
             "projectName": "SerialComm",
-            "classPaths": ["${workspaceFolder}/lib/comm.jar"],
-            "preLaunchTask": "javacompile"
+            "classPaths": ["${workspaceFolder}/lib/comm.jar","${workspaceFolder}/bin"],
+            "preLaunchTask": "javacompile",
+            
         }
     ]
 }

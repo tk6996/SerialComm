@@ -6,6 +6,7 @@
             "type": "shell",
             "command": "cd \"C:\\Program Files (x86)\\Java\\jdk1.8.0_74\\bin\" && javac",
             "args": [
+                "-g",
                 "-d",
                 "${workspaceFolder}\\bin",
                 "${workspaceFolder}\\src\\com\\epam\\*.java"

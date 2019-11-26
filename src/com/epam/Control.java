@@ -18,7 +18,6 @@ public class Control {
     public OutputStream outputStream;
     public SerialPort serialPort;
     public BufferedInputStream bw;
-    public char stop;
     public static void main(final String[] args) {
         try {
             final Enumeration<?> portList = CommPortIdentifier.getPortIdentifiers();
@@ -48,15 +47,12 @@ public class Control {
         inputStream = serialPort.getInputStream();
         outputStream = serialPort.getOutputStream();
         bw = new BufferedInputStream(inputStream);
-        serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-        stop = (char) bw.read();
-        System.out.println("Stop char = " + stop);
+        serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
     }
 
     public int waitingStart() throws IOException {
-        int ch = bw.read();
-        // System.out.println((char)ch);
-        while((char)ch == stop){ch = bw.read();}
+        int ch =  bw.read();
+        //System.out.println((char)ch);
         return ch;
     }
 }
