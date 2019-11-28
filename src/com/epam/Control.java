@@ -18,6 +18,7 @@ public class Control {
     public OutputStream outputStream;
     public SerialPort serialPort;
     public BufferedInputStream bw;
+
     public static void main(final String[] args) {
         try {
             final Enumeration<?> portList = CommPortIdentifier.getPortIdentifiers();
@@ -28,11 +29,10 @@ public class Control {
                     System.out.println("Port name: " + pid.getName());
                     if (pid.getName().equals("COM7")) {
                         Control ctr = new Control(pid);
-                        while (true)
-                        {
+                        while (true) {
                             System.out.println(ctr.waitingStart());
                         }
-                        
+
                     }
                 }
             }
@@ -51,8 +51,8 @@ public class Control {
     }
 
     public int waitingStart() throws IOException {
-        int ch =  bw.read();
-        System.out.println("Received : " + (char)ch + " Binary : "+ Integer.toBinaryString(ch));
+        int ch = bw.read();
+        System.out.println("Received : " + (char) ch + " Binary : " + Integer.toBinaryString(ch));
         return ch;
     }
 }
