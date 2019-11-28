@@ -3,7 +3,7 @@ import sys
 portName = "COM16"
 if __name__ == "__main__":
     try:
-        myserial = serial.Serial(portName, 115200)
+        myserial = serial.Serial(portName, 9600)
         state = 0
         type_img = {'T': "Top", 'B': "Bottom", 'L': "Left",
                     'R': "Right", 'U': "Upper", 'D': "Lower"}
