@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.Enumeration;
 
 import javax.comm.CommPortIdentifier;
+import javax.comm.UnsupportedCommOperationException;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialException;
 
 public class MainProgram {
 	public static char[] angle = new char[3]; // -45* 0* 45*
@@ -17,7 +17,7 @@ public class MainProgram {
 		try {
 			final String Arduino2 = "COM15";
 			final String Arduino3 = "COM14";
-			final String Arduino4 = "COM8";
+			final String Arduino4 = "COM7";
 			SimpleRead sRead = null;
 			Control ctr = null;
 			ServoControl servo = null;
@@ -40,7 +40,7 @@ public class MainProgram {
 				}
 			}
 			if (ctr == null || sRead == null || servo == null)
-				throw new SerialException();
+				throw new UnsupportedCommOperationException();
 			/*long time = System.currentTimeMillis();
 			while (System.currentTimeMillis() - time < 5000) {
 
@@ -66,21 +66,21 @@ public class MainProgram {
 					for (int i = 0; i < 3; i++) {
 						switch (i) {
 						case 0:
-							System.out.println("angle = -45* , type = " + angle[0]);
+							System.out.println("angle = -45* , type = " + typeImg(angle[0]));
 							ctr.outputStream.write((byte)1);
 							while((char)ctr.waitingStart() != 'A'){}
 							ctr.outputStream.write(angle[0]);
 							while((char)ctr.waitingStart() != 'A'){}
 							break;
 						case 1:
-							System.out.println("angle = 0* , type = " + angle[1]);
+							System.out.println("angle = 0* , type = " + typeImg(angle[1]));
 							ctr.outputStream.write((byte)2);
 							while((char)ctr.waitingStart() != 'A'){}
 							ctr.outputStream.write(angle[1]);
 							while((char)ctr.waitingStart() != 'A'){}
 							break;
 						case 2:
-							System.out.println("angle = 45* , type = " + angle[2]);
+							System.out.println("angle = 45* , type = " + typeImg(angle[2]));
 							ctr.outputStream.write((byte)3);
 							while((char)ctr.waitingStart() != 'A'){}
 							ctr.outputStream.write(angle[2]);
@@ -106,6 +106,7 @@ public class MainProgram {
 							break;
 						}
 					}
+					System.out.println("Finish Send Data");
 				}
 			}
 		} catch (Exception e) {
@@ -168,7 +169,7 @@ public class MainProgram {
 				while((char)ctr.waitingStart() != 'A'){}
 				ctr.outputStream.write((byte) (0x1F & (int) (i * buf.getHeight() / 5)));
 				while((char)ctr.waitingStart() != 'A'){}
-				ctr.outputStream.write((byte) ((0xF & (byte) ((j * buf.getHeight() / 5) >> 5)) ));
+				ctr.outputStream.write((byte) ((0xF & (byte) ((i * buf.getHeight() / 5) >> 5)) ));
 				while((char)ctr.waitingStart() != 'A'){}
 				ctr.outputStream.write((byte) (buf.getRGB(j * buf.getWidth() / 5, i * buf.getHeight() / 5) & 0xFF));
 				while((char)ctr.waitingStart() != 'A'){}
@@ -176,6 +177,21 @@ public class MainProgram {
 		}
 
 		// return;*/
+	}
+	public static String typeImg(char t)
+	{
+		String type = null;
+		switch (t) {
+			case 'T': type = "Top" ; break;
+			case 'B' : type = "Bottom" ; break;
+			case 'L' : type = "Left" ; break;
+			case 'R' : type = "Right" ; break;
+			case 'U' : type = "Upper" ; break;
+			case 'D' : type = "Lower" ; break;
+			default:
+				break;
+		}
+		return type;
 	}
 
 }

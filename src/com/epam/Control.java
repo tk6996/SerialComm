@@ -52,7 +52,7 @@ public class Control {
 
     public int waitingStart() throws IOException {
         int ch =  bw.read();
-        //System.out.println((char)ch);
+        System.out.println("Received : " + (char)ch + " Binary : "+ Integer.toBinaryString(ch));
         return ch;
     }
 }

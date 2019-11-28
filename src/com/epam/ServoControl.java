@@ -44,9 +44,9 @@ public class ServoControl {
     }
 
     public void Degrees135() throws IOException {
-        this.servoHorizontalRotage((byte) 139);
+        this.servoHorizontalRotage((byte) 137);
         sleep(1000);
-        this.servoVerticalRotage((byte) 145);
+        this.servoVerticalRotage((byte) 148);
     }
 
     public void rotage(int i) throws IOException {
